@@ -1,4 +1,4 @@
-### 🌆 AetherCity · Agentic GenAI Urban Intelligence & Conversational Assistant
+# 🌆 AetherCity · Agentic GenAI Urban Intelligence & Conversational Assistant
 
 AetherCity is an interactive AI assistant powered by **LangChain**, **Mistral AI (`mistral-small-2506`)**, **OpenWeatherMap API**, and **Tavily AI Search**. The project includes an interactive **Streamlit** chat interface with dynamic human-in-the-loop (HITL) approval buttons and a terminal-based conversational agent with middleware approval gates.
 
