@@ -1,61 +1,118 @@
-# 🌆 AetherCity · Human-in-the-Loop Agentic GenAI Assistant
+# 🌆 AetherCity: Human-in-the-Loop Agentic Urban Intelligence
 
-AetherCity is an interactive conversational AI system built with **LangChain**, **Mistral AI (`mistral-small-2506`)**, **OpenWeatherMap API**, and **Tavily AI Search**. The project includes an interactive **Streamlit** chat interface with dynamic human-in-the-loop (HITL) approval buttons and a terminal-based conversational agent with middleware approval gates.
+[Python Version](https://www.python.org/) ([image](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg))
+[LangChain](https://python.langchain.com/) ([image](https://img.shields.io/badge/Orchestration-LangChain-green.svg))
+[LLM: Mistral AI](https://mistral.ai/) ([image](https://img.shields.io/badge/LLM-Mistral%20AI-orange.svg))
+[Search: Tavily](https://tavily.com/) ([image](https://img.shields.io/badge/Search-Tavily%20API-lightblue.svg))
+[Weather: OpenWeather](https://openweathermap.org/) ([image](https://img.shields.io/badge/Telemetry-OpenWeatherMap-yellow.svg))
+[UI: Streamlit](https://streamlit.io/) ([image](https://img.shields.io/badge/Interface-Streamlit-red.svg))
+[License: MIT](LICENSE) ([image](https://img.shields.io/badge/License-MIT-purple.svg))
 
-The system serves as a conversational assistant for general inquiries and conditionally activates external tools only when real-time city weather telemetry or local breaking news is requested, requiring human confirmation before querying external APIs.
+An agentic conversational system designed for real-time city telemetry, localized news synthesis, and general reasoning. Built with **LangChain**, **Mistral AI**, **OpenWeatherMap**, **Tavily**, and **Streamlit**, featuring strict **Human-in-the-Loop (HITL) Guardrails** for secure external tool execution.
 
 ---
 
-## 🏗️ Architecture & Interaction Flow
-
-The assistant routes general queries directly to the LLM and triggers tool calling with an authorization checkpoint only when external city data is needed:
+## 🏛️ System Architecture
 
 ```text
-                           ┌────────────────────────┐
-                           │   User Chat Message    │
-                           └───────────┬────────────┘
-                                       │
+                         [ User Query ]
+                               │
+                               ▼
+                ┌──────────────────────────────┐
+                │  Mistral LLM Reasoning Core  │
+                │      (Tool Call Intent)      │
+                └──────────────┬───────────────┘
+                               │
+                               ▼
+               ┌────────────────────────────────┐
+               │   🛡️ HITL Security Guardrail   │
+               │   (Manual User Authorization)  │
+               └───────┬────────────────┬───────┘
+                       │                │
+              [ Authorized ]       [ Denied ]
+                       ▼                ▼
+         ┌─────────────────────────┐  ┌─────────────────────────┐
+         │ External Tool Invocations│  │  Intercepted Execution  │
+         │ ├─ OpenWeatherMap API   │  │   (Tool Denied Message) │
+         │ └─ Tavily News Search   │  └────────────┬────────────┘
+         └─────────────┬───────────┘               │
+                       │ Payload                   │
+                       └───────────────┬───────────┘
                                        ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ 1. LLM Intent Classification & Tool Binding                                 │
-│    • Model: ChatMistralAI (`mistral-small-2506`)                            │
-│    • General Inquiries: Responds directly without calling tools             │
-│    • Weather / News Queries: Formulates tool call parameters                │
-└──────────────────────────────────────┬──────────────────────────────────────┘
-                                       │
-                     ┌─────────────────┴─────────────────┐
-       [ General Query ]                     [ Tool Call Required ]
-                     │                                   │
-                     │                                   ▼
-                     │       ┌────────────────────────────────────────────────┐
-                     │       │ 2. Human-in-the-Loop (HITL) Approval Checkpoint│
-                     │       │    • Streamlit UI: "Authorize" vs "Deny"       │
-                     │       │    • CLI: Terminal prompt `(yes/no)`           │
-                     │       └───────────────────┬────────────────────────────┘
-                     │                           │
-                     │             ┌─────────────┴─────────────┐
-                     │  [ Approved ]                          [ Denied ]
-                     │             ▼                           ▼
-                     │  ┌───────────────────────┐   ┌─────────────────────────┐
-                     │  │ 3. Execute Tool       │   │ Return Rejection Message│
-                     │  │  • `get_weather`      │   │ ("Tool call denied")    │
-                     │  │  • `get_news`         │   └────────────┬────────────┘
-                     │  └──────────┬────────────┘                │
-                     │             │                             │
-                     │             └─────────────┬───────────────┘
-                     │                           │
-                     ▼                           ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ 4. LLM Synthesis & Response Delivery                                        │
-│    • Streamlit Chat: Appends final message to conversation state            │
-│    • CLI Terminal: Prints assistant response                                │
-└─────────────────────────────────────────────────────────────────────────────┘
+                        ┌─────────────────────────────┐
+                        │ Final Grounded Synthesis    │
+                        └─────────────────────────────┘
 ```
-## **📁 Repository Structure**
+
+---
+
+## ✨ Key Technical Highlights
+
+- **Autonomous Tool Binding & Intent Detection:** Uses Mistral function calling to determine when to trigger telemetry or search tools versus answering from parametric memory.
+- **Human-in-the-Loop (HITL) Guardrails:** Intercepts agent tool execution in both CLI and Streamlit interfaces, requiring manual user authorization before performing external network actions.
+- **Dual Interface Support:** Includes an interactive Streamlit UI with telemetry sidebars and a fast, headless terminal CLI.
+- **Graceful Degradation:** Handles missing API keys, rate limits, and network connection drops cleanly without breaking the conversational context.
+
+---
+
+## 📂 Repository Structure
+
 ```text
-├── app.py              # Streamlit web application with HITL approval cards
-├── main.py             # CLI terminal agent with wrap_tool_call middleware
-├── requirements.txt    # Python package dependencies
-├── .env.example        # Environment variable template for required API keys
-├── .gitignore          # Git ignore rules for virtual environments and credentials
-└── README.md           # Project documentation
+├── .env.example        # Environment variable template
+├── .gitignore          # Git exclusion rules
+├── app.py              # Streamlit web application with HITL state management
+├── main.py             # Headless terminal CLI agent with middleware approval
+├── LICENSE              # Project distribution license (MIT)
+├── requirements.txt    # Pinned Python dependencies
+├── DECISIONS.md        # Architecture decisions, trade-offs & guardrail scope
+└── README.md           # Master documentation & quickstart
+```
+
+---
+
+## 🚀 Quickstart
+
+### 1. Clone & Setup Virtual Environment
+
+```bash
+git clone https://github.com/Aditya-C-Patil/AetherCity.git
+cd AetherCity
+
+python -m venv .venv
+
+# On Windows
+.venv\Scripts\activate
+
+# On macOS/Linux
+source .venv/bin/activate
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure API Credentials
+
+Create a `.env` file in the root directory:
+
+```env
+MISTRAL_API_KEY=your_mistral_api_key_here
+OPENWEATHER_API_KEY=your_openweather_api_key_here
+TAVILY_API_KEY=your_tavily_api_key_here
+```
+
+### 4. Run the Application
+
+**Interactive Streamlit Web Hub:**
+
+```bash
+streamlit run app.py
+```
+
+**Terminal CLI Agent:**
+
+```bash
+python main.py
+```
