@@ -32,7 +32,7 @@ An agentic conversational system designed for real-time city telemetry, localize
               [ Authorized ]       [ Denied ]
                        ▼                ▼
          ┌─────────────────────────┐  ┌─────────────────────────┐
-         │ External Tool Invocations│  │  Intercepted Execution  │
+         │External Tool Invocations│  │  Intercepted Execution  │
          │ ├─ OpenWeatherMap API   │  │   (Tool Denied Message) │
          │ └─ Tavily News Search   │  └────────────┬────────────┘
          └─────────────┬───────────┘               │
@@ -58,11 +58,12 @@ An agentic conversational system designed for real-time city telemetry, localize
 ## 📂 Repository Structure
 
 ```text
+├── DECISIONS.md        # Architectural and Engineering Decisions
 ├── .env.example        # Environment variable template
 ├── .gitignore          # Git exclusion rules
 ├── app.py              # Streamlit web application with HITL state management
 ├── main.py             # Headless terminal CLI agent with middleware approval
-├── LICENSE              # Project distribution license (MIT)
+├── LICENSE             # Project distribution license (MIT)
 ├── requirements.txt    # Pinned Python dependencies
 ├── DECISIONS.md        # Architecture decisions, trade-offs & guardrail scope
 └── README.md           # Master documentation & quickstart
@@ -75,8 +76,8 @@ An agentic conversational system designed for real-time city telemetry, localize
 ### 1. Clone & Setup Virtual Environment
 
 ```bash
-git clone https://github.com/Aditya-C-Patil/AetherCity.git
-cd AetherCity
+git clone https://github.com/Aditya-C-Patil/AetherCity-Agentic-GenAI.git
+cd AetherCity-Agentic-GenAI
 
 python -m venv .venv
 
