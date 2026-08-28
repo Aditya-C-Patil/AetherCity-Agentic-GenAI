@@ -1,12 +1,12 @@
 # 🌆 AetherCity: Human-in-the-Loop Agentic Urban Intelligence
 
-[Python Version](https://www.python.org/) ([image](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg))
-[LangChain](https://python.langchain.com/) ([image](https://img.shields.io/badge/Orchestration-LangChain-green.svg))
-[LLM: Mistral AI](https://mistral.ai/) ([image](https://img.shields.io/badge/LLM-Mistral%20AI-orange.svg))
-[Search: Tavily](https://tavily.com/) ([image](https://img.shields.io/badge/Search-Tavily%20API-lightblue.svg))
-[Weather: OpenWeather](https://openweathermap.org/) ([image](https://img.shields.io/badge/Telemetry-OpenWeatherMap-yellow.svg))
-[UI: Streamlit](https://streamlit.io/) ([image](https://img.shields.io/badge/Interface-Streamlit-red.svg))
-[License: MIT](LICENSE) ([image](https://img.shields.io/badge/License-MIT-purple.svg))
+[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue.svg)](https://www.python.org/)
+[![LangChain](https://img.shields.io/badge/Orchestration-LangChain-green.svg)](https://python.langchain.com/)
+[![LLM: Mistral AI](https://img.shields.io/badge/LLM-Mistral%20AI-orange.svg)](https://mistral.ai/)
+[![Search: Tavily](https://img.shields.io/badge/Search-Tavily%20API-lightblue.svg)](https://tavily.com/)
+[![Weather: OpenWeather](https://img.shields.io/badge/Telemetry-OpenWeatherMap-yellow.svg)](https://openweathermap.org/)
+[![UI: Streamlit](https://img.shields.io/badge/Interface-Streamlit-red.svg)](https://streamlit.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 
 An agentic conversational system designed for real-time city telemetry, localized news synthesis, and general reasoning. Built with **LangChain**, **Mistral AI**, **OpenWeatherMap**, **Tavily**, and **Streamlit**, featuring strict **Human-in-the-Loop (HITL) Guardrails** for secure external tool execution.
 
